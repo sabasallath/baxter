@@ -4,9 +4,13 @@ IFS=$'\n\t'
 
 export DEBIAN_FRONTEND=noninteractive
 
-# 1 # --- --- Install Ubuntu 14.05 --- --- #
+#############################################
+## A ## === === Robot Installation === === ##
+#############################################
 
-# 2 # --- --- Install ROS --- --- #
+# A1 # --- --- Install Ubuntu 14.05 --- --- #
+
+# A2 # --- --- Install ROS --- --- #
 # Install ROS Indigo
 ## Setup your sources.list
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -23,7 +27,7 @@ rosdep update
 sudo apt-get install -y python-rosinstall
 
 
-# 3 # --- --- Create Baxter Development Workspace --- --- #
+# A3 # --- --- Create Baxter Development Workspace --- --- #
 # Create ROS Workspace
 mkdir -p ~/ros_ws/src
 # Source ROS and Build
@@ -41,7 +45,7 @@ sudo apt-get update
 sudo apt-get install -y git-core python-argparse python-wstool python-vcstools python-rosdep ros-indigo-control-msgs ros-indigo-joystick-drivers
 
 
-# 5 # --- --- Install Baxter Research Robot SDK --- --- #
+# A5 # --- --- Install Baxter Research Robot SDK --- --- #
 # Install Baxter SDK
 cd ~/ros_ws/src
 wstool init .
@@ -54,7 +58,7 @@ cd ~/ros_ws
 catkin_make
 catkin_make install
 
-# 6 # --- --- Configure Baxter Communication/ROS Workspace --- --- #
+# A6 # --- --- Configure Baxter Communication/ROS Workspace --- --- #
 # Download the baxter.sh script
 wget https://github.com/RethinkRobotics/baxter/raw/master/baxter.sh
 chmod u+x baxter.sh
@@ -80,10 +84,37 @@ chmod u+x baxter.sh
 ### cd ~/ros_ws
 ### . baxter.sh
 
-# 7 # --- --- Verify Environment --- --- #
+# A7 # --- --- Verify Environment --- --- #
 env | grep ROS
 ### The important fields at this point:
 ### ROS_MASTER_URI - This should now contain your robot's hostname.
 ### ROS_IP - This should contain your workstation's IP address.
 ### or
 ### ROS_HOSTNAME - If not using the workstation's IP address, the ROS_HOSTNAME field should contain your PC's hostname. Otherwise, this field should not be available. 
+
+#################################################
+## B ## === === Simulator Installation === === ##
+#################################################
+
+# B1 # --- --- Prerequisites --- --- #
+
+sudo apt-get install -y gazebo2 ros-indigo-qt-build ros-indigo-driver-common ros-indigo-gazebo-ros-control ros-indigo-gazebo-ros-pkgs ros-indigo-ros-control ros-indigo-control-toolbox ros-indigo-realtime-tools ros-indigo-ros-controllers ros-indigo-xacro python-wstool ros-indigo-tf-conversions ros-indigo-kdl-parser
+
+# B2 # --- --- Baxter Simulator Installation --- --- #
+# Install baxter_simulator
+cd ~/ros_ws/src
+# Already done in A
+# wstool init .
+wstool merge https://raw.githubusercontent.com/RethinkRobotics/baxter_simulator/master/baxter_simulator.rosinstall
+wstool update
+
+# Build Source
+source /opt/ros/indigo/setup.bash
+cd ~/ros_ws
+catkin_make
+catkin_make install
+
+## Use baxter.sh - it has a special hook for sim:
+cp src/baxter/baxter.sh .
+
+## Edit the your_ip value in baxter.sh
