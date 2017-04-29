@@ -6,6 +6,7 @@ IFS=$'\n\t'
 
 export DEBIAN_FRONTEND=noninteractive
 
+<<<<<<< HEAD
 # Display progress
 GREEN=`tput setaf 2`
 RESET=`tput sgr0`
@@ -14,11 +15,14 @@ function color_echo {
     echo "${GREEN}$1${RESET}"
 }
 
-# 1 # --- --- Install Ubuntu 14.05 --- --- #
-#### Already done
+#############################################
+## A ## === === Robot Installation === === ##
+#############################################
 
-# 2 # --- --- Install ROS --- --- #
+# A1 # --- --- Install Ubuntu 14.05 --- --- #
 
+# A2 # --- --- Install ROS --- --- #
+>>>>>>> 4206d803e5a6a144922605ff68de3aca0075ba27
 # Install ROS Indigo
 ## Setup your sources.list
 color_echo "=== === Setup your sources.list === ==="
@@ -41,7 +45,7 @@ color_echo "=== === Install rosinstall === ==="
 sudo apt-get install -y python-rosinstall
 
 
-# 3 # --- --- Create Baxter Development Workspace --- --- #
+# A3 # --- --- Create Baxter Development Workspace --- --- #
 # Create ROS Workspace
 color_echo "=== === Create ROS Workspace === ==="
 mkdir -p ~/ros_ws/src
@@ -60,14 +64,14 @@ catkin_make
 catkin_make install
 
 
-# 4 # --- --- Install Baxter SDK Dependencies --- --- #
+# A4 # --- --- Install Baxter SDK Dependencies --- --- #
 # Install SDK Dependencies
 color_echo "=== === Install SDK Dependencies === ==="
 sudo apt-get update
 sudo apt-get install -y git-core python-argparse python-wstool python-vcstools python-rosdep ros-indigo-control-msgs ros-indigo-joystick-drivers
 
 
-# 5 # --- --- Install Baxter Research Robot SDK --- --- #
+# A5 # --- --- Install Baxter Research Robot SDK --- --- #
 # Install Baxter SDK
 color_echo "=== === Install Baxter SDK === ==="
 cd ~/ros_ws/src
@@ -87,7 +91,7 @@ cd ~/ros_ws
 catkin_make
 catkin_make install
 
-# 6 # --- --- Configure Baxter Communication/ROS Workspace --- --- #
+# A6 # --- --- Configure Baxter Communication/ROS Workspace --- --- #
 # Download the baxter.sh script
 color_echo "=== === Download the baxter.sh script === ==="
 wget https://github.com/RethinkRobotics/baxter/raw/master/baxter.sh
@@ -116,7 +120,7 @@ color_echo "=== === Initialize your SDK environment === ==="
 cd ~/ros_ws
 . baxter.sh
 
-# 7 # --- --- Verify Environment --- --- #
+# A7 # --- --- Verify Environment --- --- #
 color_echo "=== === Verify Environment === ==="
 env | grep ROS
 ### The important fields at this point:
@@ -132,3 +136,33 @@ color_echo "Baxter's hostname is defaulted as the robot's serial number."
 color_echo "The serial number can be located on the back of the robot, next to the power button."
 color_echo "Specify Baxter's hostname"
 color_echo "**baxter_hostname=\"baxter_hostname.local\"**"
+
+
+#################################################
+## B ## === === Simulator Installation === === ##
+#################################################
+
+# B1 # --- --- Prerequisites --- --- #
+
+sudo apt-get install -y gazebo2 ros-indigo-qt-build ros-indigo-driver-common ros-indigo-gazebo-ros-control ros-indigo-gazebo-ros-pkgs ros-indigo-ros-control ros-indigo-control-toolbox ros-indigo-realtime-tools ros-indigo-ros-controllers ros-indigo-xacro python-wstool ros-indigo-tf-conversions ros-indigo-kdl-parser
+
+# B2 # --- --- Baxter Simulator Installation --- --- #
+# Install baxter_simulator
+cd ~/ros_ws/src
+# Already done in A
+# wstool init .
+wstool merge https://raw.githubusercontent.com/RethinkRobotics/baxter_simulator/master/baxter_simulator.rosinstall
+wstool update
+
+# Build Source
+### Due to TMPDIR unset variable in /opt/ros/indigo/setup.bash, unset_variable as error is disabled
+set +u
+source /opt/ros/indigo/setup.bash
+### unset_variable as error enabled
+set -u
+cd ~/ros_ws
+catkin_make
+catkin_make install
+
+## Use baxter.sh - it has a special hook for sim:
+cp src/baxter/baxter.sh .
