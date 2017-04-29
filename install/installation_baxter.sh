@@ -116,7 +116,9 @@ chmod u+x baxter.sh
 ## Initialize your SDK environment
 color_echo "=== === Initialize your SDK environment === ==="
 cd ~/ros_ws
+set +u
 . baxter.sh
+set -u
 
 # A7 # --- --- Verify Environment --- --- #
 color_echo "=== === Verify Environment === ==="
@@ -125,15 +127,7 @@ env | grep ROS
 ### ROS_MASTER_URI - This should now contain your robot's hostname.
 ### ROS_IP - This should contain your workstation's IP address.
 ### or
-### ROS_HOSTNAME - If not using the workstation's IP address, the ROS_HOSTNAME field should contain your PC's hostname. Otherwise, this field should not be available. 
-
-# 8 # --- --- Configure Baxter Communication/ROS Workspace Again to use the physical robot --- --- #
-color_echo "=== === Customize the baxter.sh if you don't want to only use the simulator === ==="
-color_echo "Edit the 'baxter_hostname' field in baxter.sh script"
-color_echo "Baxter's hostname is defaulted as the robot's serial number."
-color_echo "The serial number can be located on the back of the robot, next to the power button."
-color_echo "Specify Baxter's hostname"
-color_echo "**baxter_hostname=\"baxter_hostname.local\"**"
+### ROS_HOSTNAME - If not using the workstation's IP address, the ROS_HOSTNAME field should contain your PC's hostname. Otherwise, this field should not be available.
 
 
 #################################################
@@ -153,10 +147,8 @@ wstool merge https://raw.githubusercontent.com/RethinkRobotics/baxter_simulator/
 wstool update
 
 # Build Source
-### Due to TMPDIR unset variable in /opt/ros/indigo/setup.bash, unset_variable as error is disabled
 set +u
 source /opt/ros/indigo/setup.bash
-### unset_variable as error enabled
 set -u
 cd ~/ros_ws
 catkin_make
@@ -164,3 +156,16 @@ catkin_make install
 
 ## Use baxter.sh - it has a special hook for sim:
 cp src/baxter/baxter.sh .
+
+#################################################
+## C ## === ===  Manual configuration  === === ##
+#################################################
+
+# C1 # --- --- Configure Baxter Communication/ROS Workspace Again to use the physical robot --- --- #
+color_echo "=== === Customize the baxter.sh if you don't want to only use the simulator === ==="
+color_echo "Edit the 'baxter_hostname' field in baxter.sh script"
+color_echo "Baxter's hostname is defaulted as the robot's serial number."
+color_echo "The serial number can be located on the back of the robot, next to the power button."
+color_echo "Specify Baxter's hostname"
+color_echo "**baxter_hostname=\"baxter_hostname.local\"**"
+color_echo "If you only want to use the simulator, you're done"
