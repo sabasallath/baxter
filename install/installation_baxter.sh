@@ -113,23 +113,6 @@ chmod u+x baxter.sh
 ### This field will default to "indigo"
 ### ***ros_version="indigo"***
 
-## Initialize your SDK environment
-color_echo "=== === Initialize your SDK environment === ==="
-cd ~/ros_ws
-set +u
-. baxter.sh
-set -u
-
-# A7 # --- --- Verify Environment --- --- #
-color_echo "=== === Verify Environment === ==="
-env | grep ROS
-### The important fields at this point:
-### ROS_MASTER_URI - This should now contain your robot's hostname.
-### ROS_IP - This should contain your workstation's IP address.
-### or
-### ROS_HOSTNAME - If not using the workstation's IP address, the ROS_HOSTNAME field should contain your PC's hostname. Otherwise, this field should not be available.
-
-
 #################################################
 ## B ## === === Simulator Installation === === ##
 #################################################
@@ -169,3 +152,18 @@ color_echo "The serial number can be located on the back of the robot, next to t
 color_echo "Specify Baxter's hostname"
 color_echo "**baxter_hostname=\"baxter_hostname.local\"**"
 color_echo "If you only want to use the simulator, you're done"
+echo
+
+# C2 # --- --- Verify Environment --- --- #
+color_echo "=== === Verify your Environment with === ==="
+color_echo "env | grep ROS"
+color_echo "The important fields at this point:"
+color_echo "ROS_MASTER_URI - This should now contain your robot's hostname. Initialized by this script to a fake hostname"
+color_echo "ROS_IP - This should contain your workstation's IP address."
+color_echo "or"
+color_echo "ROS_HOSTNAME - If not using the workstation's IP address, the ROS_HOSTNAME field should contain your PC's hostname."
+color_echo "Otherwise, this field should not be available."
+echo
+
+# C3 # --- --- Verify Environment --- --- #
+color_echo "Initialize your SDK environment with './baxter.sh sim'"
