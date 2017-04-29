@@ -6,7 +6,6 @@ IFS=$'\n\t'
 
 export DEBIAN_FRONTEND=noninteractive
 
-<<<<<<< HEAD
 # Display progress
 GREEN=`tput setaf 2`
 RESET=`tput sgr0`
@@ -22,7 +21,6 @@ function color_echo {
 # A1 # --- --- Install Ubuntu 14.05 --- --- #
 
 # A2 # --- --- Install ROS --- --- #
->>>>>>> 4206d803e5a6a144922605ff68de3aca0075ba27
 # Install ROS Indigo
 ## Setup your sources.list
 color_echo "=== === Setup your sources.list === ==="
