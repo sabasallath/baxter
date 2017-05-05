@@ -8,7 +8,7 @@ https://github.com/sabasallath/baxter_block_planner
    install/installation_baxter.sh
    ```
    
-- Edit your ~/rosws/baxter.sh ip and hostname section
+- Edit your ~/ros_ws/baxter.sh ip and hostname section
 
 - If you get ```"Warning [gazebo.cc:215] Waited 1seconds for namespaces.``` error
 
