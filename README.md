@@ -1,11 +1,36 @@
 # baxter
 baxter_block_planner installation/Configuration script
 
-https://github.com/sabasallath/baxter_block_planner
+- Install ubuntu 14.04
 
-- In ubuntu 14.04 (**<- and only in 14.04**) run
+    For instance, on windows you can load Xubuntu 14.04 iso on USB key with rufus :
+
+    - http://cdimage.ubuntu.com/xubuntu/releases/14.04/release/xubuntu-14.04-desktop-amd64.iso
+    - https://rufus.akeo.ie/downloads/rufus-2.14.exe
+    
+    More details on installation procedure can be found here :
+    
+    - https://www.ubuntu.com/download/desktop/create-a-usb-stick-on-windows
+
+- In ubuntu **14.04** (or 14.04.1, 14.04.2, 14.04.3 and derivative)
+
+   Update
+   
    ```
-   install/installation_baxter.sh
+   sudo apt-get update
+   sudo apt-get upgrade
+   ```
+
+   Clone this repository
+   
+   ```
+   git clone https://github.com/sabasallath/baxter.git
+   ```
+   
+   Run the installation_baxter.sh script
+   
+   ```
+   ~/baxter/install/installation_baxter.sh
    ```
    
 - Edit your ~/ros_ws/baxter.sh ip and hostname section
@@ -24,58 +49,12 @@ https://github.com/sabasallath/baxter_block_planner
     sudo apt-get update
     sudo apt-get upgrade
     ```
+    
+- Install baxter_block_planner
 
+    - https://github.com/sabasallath/baxter_block_planner
     
-- Install MoveIt package
-
-    http://sdk.rethinkrobotics.com/wiki/MoveIt_Tutorial
-    
-    **/!\ REBOOT after MoveIt installation**
-    
-    If still in trouble :
-    
-    ```
-    cd ~/ros_ws/
-    rm -rf build/
-    rm -rf devel/
-    catkin_make
-    catkin_make install
-    ```
-    
-- Clone sabasallath/baxter_block_planner.git in ~/ros_ws/src/ 
-    and in ~ros_ws directory :
-    
-    ```
-    catkin_make
-    catkin_make install
-    ```
-
-- Launch it
-
-    In separate terminal do
-    
-    ```
-    cd ~/ros_ws/
-    ./baxter.sh sim
-    roslaunch baxter_block_planner block_planner.launch
-    ```
-    ```
-    cd ~/ros_ws/
-    ./baxter.sh sim
-    rosrun baxter_tools enable_robot.py -e
-    rosrun baxter_interface joint_trajectory_action_server.py
-    ```
-    ```
-    cd ~/ros_ws/
-    ./baxter.sh sim
-    rosrun baxter_block_planner block_planner.py
-    ```
-
 - Your Done !
-
-    Install visual-studio-code and pycharm with :
-    
-       install/post_install_utils.sh
 
 
     
