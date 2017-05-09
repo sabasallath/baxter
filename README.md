@@ -35,9 +35,7 @@ baxter_block_planner installation/Configuration script
    
 - Edit your ~/ros_ws/baxter.sh ip and hostname section
 
-- If you get ```"Warning [gazebo.cc:215] Waited 1seconds for namespaces.``` error
-
-    Update gazebo to the lastest version
+- Update gazebo to the lastest version
     
     ```    
     sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu trusty main" > /etc/apt/sources.list.d/gazebo-latest.list'
